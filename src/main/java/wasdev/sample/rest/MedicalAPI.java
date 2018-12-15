@@ -23,9 +23,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 
+import com.google.gson.Gson;
+
 import wasdev.sample.store.MedicalStore;
 import wasdev.sample.store.MedicalStoreFactory;
 import wasdev.sample.vo.Medical;
+import wasdev.sample.vo.Response;
 
 /**
  * @author anderson.nascimento
@@ -44,14 +47,14 @@ public class MedicalAPI extends Application {
 	 */
 	@PUT
 	@Path("/update")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String update(Medical me) {
 
 		String _id = me.get_id();
 		
-		Medical medical = store.update(_id, me);
+		store.update(_id, me);
 		
-		return String.format("O Médico %s foi atualizado com sucesso.", medical.getName());
+		return new Gson().toJson(new Response());
 	}
 }
